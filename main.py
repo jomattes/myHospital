@@ -16,7 +16,6 @@ def get_hospitals(params, limit=50):
                 hc_url = hc_url + str(i) + '=' + str(j)
         cnt += 1
     hc_url = hc_url + '&$limit=' + str(limit)
-    print(hc_url)
     response = requests.get(hc_url)
     return response.json()
 
@@ -56,6 +55,7 @@ class HospitalScreen(Screen):
     
     def switch_screen(self, list_item):
         self.manager.current = 'detail_screen'
+        self.manager.get_screen('detail_screen').ids.screen2_label.text = list_item.text
 
 class DetailScreen(Screen):
     # detail_screen = ObjectProperty()
