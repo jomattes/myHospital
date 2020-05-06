@@ -6,10 +6,6 @@ from kivymd.uix.list import ThreeLineListItem
 import requests
 
 KV = """
-
-"""
-
-KV = """
 <ContentNavigationDrawer>:
 
     ScrollView:

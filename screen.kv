@@ -1,0 +1,33 @@
+ScreenManager:
+    MenuScreen:
+    HospitalScreen:
+    DetailScreen:
+
+<MenuScreen>:
+    name: 'menu_screen'
+    
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+        
+        MDFillRoundFlatButton:
+            icon: 'android'
+            text: 'start'
+            halign: 'center'
+            # custom_color: 0, 1, 0, 1
+            on_press: app.root.current = 'hospital_screen'
+
+<HospitalScreen>:
+    name: 'hospital_screen'
+    on_enter: root.add_hosp_list()
+
+    ScrollView:
+        MDList:
+            id: container
+    
+    # MDLabel: 
+    #     text: 'testlabel'
+    #     halign: 'center'
+
+<DetailScreen>:
+    name: 'detail_screen'
