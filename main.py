@@ -2,7 +2,7 @@ from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.properties import ObjectProperty
 from kivy.lang import Builder
 from kivymd.app import MDApp
-from kivymd.uix.list import OneLineListItem
+from kivymd.uix.list import ThreeLineListItem
 import requests
 
 def get_hospitals(params, limit=50):
@@ -50,8 +50,11 @@ class HospitalScreen(Screen):
     def add_hosp_list(self):
         hc_data = get_hospitals(params=params)
         for hosp in hc_data:
-            self.ids.container.add_widget(OneLineListItem(text=hosp['hospital_name'],
-                                                          on_release=self.switch_screen))
+            self.ids.container.add_widget(ThreeLineListItem(text=hosp['hospital_name'],
+                                                            secondary_text=hosp['address'],
+                                                            tertiary_text='{}, {} {}'.format(\
+                                                                hosp['city'], hosp['state'], hosp['zip_code']),
+                                                            on_release=self.switch_screen))
     
     def switch_screen(self, list_item):
         self.manager.current = 'detail_screen'
