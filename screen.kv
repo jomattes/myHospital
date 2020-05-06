@@ -5,16 +5,22 @@ ScreenManager:
 
 <MenuScreen>:
     name: 'menu_screen'
+
+    Image:
+        source: 'assets/logo.png'
+        keep_ratio: True
+        size_hint: 0.5, 0.5
+        pos_hint: {'center_x': 0.5, 'center_y': 0.7}
     
-    AnchorLayout:
-        anchor_x: 'center'
-        anchor_y: 'center'
+    # AnchorLayout:
+    #     anchor_x: 'center'
+    #     anchor_y: 'center'
         
-        MDFillRoundFlatButton:
-            icon: 'android'
-            text: 'start'
-            halign: 'center'
-            on_press: app.root.current = 'hospital_screen'
+    MDFillRoundFlatButton:
+        icon: 'android'
+        text: 'start'
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        on_press: app.root.current = 'hospital_screen'
 
 <HospitalScreen>:
     name: 'hospital_screen'
