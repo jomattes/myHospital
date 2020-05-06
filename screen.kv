@@ -14,7 +14,6 @@ ScreenManager:
             icon: 'android'
             text: 'start'
             halign: 'center'
-            # custom_color: 0, 1, 0, 1
             on_press: app.root.current = 'hospital_screen'
 
 <HospitalScreen>:
@@ -24,10 +23,10 @@ ScreenManager:
     ScrollView:
         MDList:
             id: container
-    
-    # MDLabel: 
-    #     text: 'testlabel'
-    #     halign: 'center'
 
 <DetailScreen>:
     name: 'detail_screen'
+
+    MDLabel:
+        text: 'Screen 2'
+        halign: 'center'

@@ -51,7 +51,11 @@ class HospitalScreen(Screen):
     def add_hosp_list(self):
         hc_data = get_hospitals(params=params)
         for hosp in hc_data:
-            self.ids.container.add_widget(OneLineListItem(text=hosp['hospital_name']))
+            self.ids.container.add_widget(OneLineListItem(text=hosp['hospital_name'],
+                                                          on_release=self.switch_screen))
+    
+    def switch_screen(self, list_item):
+        self.manager.current = 'detail_screen'
 
 class DetailScreen(Screen):
     # detail_screen = ObjectProperty()
