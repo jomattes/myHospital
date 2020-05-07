@@ -44,6 +44,23 @@ params = {
 class MenuScreen(Screen):
     pass
 
+class SearchScreen(Screen):
+    pass
+    
+    
+    
+    # def add_params_list(self, params=params):
+    #     for param, value in params.items():
+    #         self.ids.box.add_widget(MDExpansionPanel(
+    #             content=,
+    #             panel_cls=MDExpansionPanelOneLine(
+    #                 text=param
+    #             )
+    #         )
+    #     )
+
+    
+
 class HospitalScreen(Screen):
     # hospital_screen = ObjectProperty()
     
@@ -71,9 +88,10 @@ class myHospitalApp(MDApp):
         Builder.load_file('screen.kv')
         sm = ScreenManager()
         sm.add_widget(MenuScreen())
+        sm.add_widget(SearchScreen())
         sm.add_widget(HospitalScreen())
         sm.add_widget(DetailScreen())
-        sm.current = 'menu_screen'
+        sm.current = 'search_screen'
         return sm
 
 if __name__ == '__main__':

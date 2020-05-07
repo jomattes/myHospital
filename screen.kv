@@ -1,5 +1,6 @@
 ScreenManager:
     MenuScreen:
+    SearchScreen:
     HospitalScreen:
     DetailScreen:
 
@@ -21,6 +22,41 @@ ScreenManager:
         text: 'start'
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         on_press: app.root.current = 'hospital_screen'
+
+<SearchScreen>:
+    name: 'search_screen'
+
+    ScrollView:
+        MDList:
+            OneLineAvatarListItem:
+                text: 'State'
+                IconLeftWidget:
+                    icon: 'map-marker-question-outline'
+            OneLineAvatarListItem:
+                text: 'City'
+                IconLeftWidget:
+                    icon: 'map-marker-question-outline'
+            OneLineAvatarListItem:
+                text: 'Zip Code'
+                IconLeftWidget:
+                    icon: 'map-marker-question-outline'
+            OneLineAvatarListItem:
+                text: 'Measure'
+                IconLeftWidget:
+                    icon: 'hospital-box-outline'
+
+    # MDDropDownItem:
+    #     id: state_drop
+    #     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+    #     text:
+
+    # on_enter: root.add_params_list()
+
+    # ScrollView:
+    #     MDGridLayout:
+    #         id: box
+    #         cols: 1
+    #         adaptive_height: True
 
 <HospitalScreen>:
     name: 'hospital_screen'
