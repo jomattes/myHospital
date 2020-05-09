@@ -84,6 +84,10 @@
                 IconLeftWidget:
                     icon: 'map-marker-question-outline'
 
+    MDIconButton:
+        icon: "keyboard-backspace"
+        on_press: app.root.current = 'search_screen'
+
 <MeasureScreen>:
     name: 'measure_screen'
     on_enter: root.add_meas_list()
@@ -92,8 +96,16 @@
         MDList:
             id: meas_contain
 
+    MDIconButton:
+        icon: "keyboard-backspace"
+        on_press: app.root.current = 'search_screen'
+
 <ResultsScreen>:
     name: 'results_screen'
+
+    MDIconButton:
+        icon: "keyboard-backspace"
+        on_press: app.root.current = 'search_screen'
 
 <HospitalScreen>:
     name: 'hospital_screen'
