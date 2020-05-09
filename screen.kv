@@ -29,25 +29,20 @@
     ScrollView:
         MDList:
             OneLineAvatarListItem:
-                text: 'Hospital Name'
+                text: 'Location'
+                on_release: app.root.current = 'location_screen'
                 IconLeftWidget:
                     icon: 'hospital-box-outline'
             OneLineAvatarListItem:
                 text: 'Measure'
+                on_release: app.root.current = 'measure_screen'
                 IconLeftWidget:
                     icon: 'hospital-box-outline'
             OneLineAvatarListItem:
-                text: 'State'
+                text: 'Results'
+                on_release: app.root.current = 'results_screen'
                 IconLeftWidget:
-                    icon: 'map-marker-question-outline'
-            OneLineAvatarListItem:
-                text: 'City'
-                IconLeftWidget:
-                    icon: 'map-marker-question-outline'
-            OneLineAvatarListItem:
-                text: 'Zip Code'
-                IconLeftWidget:
-                    icon: 'map-marker-question-outline'
+                    icon: 'hospital-box-outline'
 
     MDFillRoundFlatButton:
         icon: 'android'
@@ -64,13 +59,49 @@
 
     # on_enter: root.add_params_list()
 
+<LocationScreen>:
+    name: 'location_screen'
+    ScrollView:
+        MDList:
+            OneLineAvatarListItem:
+                text: 'Hospital Name'
+                IconLeftWidget:
+                    icon: 'hospital-box-outline'
+            OneLineAvatarListItem:
+                text: 'State'
+                IconLeftWidget:
+                    icon: 'map-marker-question-outline'
+            OneLineAvatarListItem:
+                text: 'City'
+                IconLeftWidget:
+                    icon: 'map-marker-question-outline'
+            OneLineAvatarListItem:
+                text: 'Zip Code'
+                IconLeftWidget:
+                    icon: 'map-marker-question-outline'
+            OneLineAvatarListItem:
+                text: 'Distance'
+                IconLeftWidget:
+                    icon: 'map-marker-question-outline'
+
+<MeasureScreen>:
+    name: 'measure_screen'
+    on_enter: root.add_meas_list()
+
+    ScrollView:
+        MDList:
+            id: meas_contain
+
+<ResultsScreen>:
+    name: 'results_screen'
+
 <HospitalScreen>:
     name: 'hospital_screen'
     on_enter: root.add_hosp_list()
 
     ScrollView:
         MDList:
-            id: container
+            id: hosp_contain
 
 <DetailScreen>:
     name: 'detail_screen'

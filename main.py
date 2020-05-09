@@ -2,7 +2,7 @@ from kivy.uix.screenmanager import Screen, ScreenManager, NoTransition
 from kivy.properties import ObjectProperty
 from kivy.lang import Builder
 from kivymd.app import MDApp
-from kivymd.uix.list import ThreeLineListItem
+from kivymd.uix.list import ThreeLineListItem, OneLineListItem
 import requests
 
 def get_hospitals(params, limit=50):
@@ -28,7 +28,7 @@ params = {
     'zip_code': None,
     'county_name': None,
     'phone_number': None,
-    'measure_id': "MORT_30_PN",
+    'measure_id': None,
     'measure_name': None,
     'compared_to_national': None,
     'denominator': None,
@@ -47,13 +47,30 @@ class MenuScreen(Screen):
 class SearchScreen(Screen):
     pass
 
+class LocationScreen(Screen):
+    pass
+
+class MeasureScreen(Screen):
+    def add_meas_list(self):
+        hc_data = get_hospitals(params=params)
+        measure_list = []
+        for hosp in hc_data:
+            measure_list.append(hosp['measure_name'])
+        measures = set(measure_list)
+        for meas in measures:
+            self.ids.meas_contain.add_widget(OneLineListItem(text=meas))
+
+
+class ResultsScreen(Screen):
+    pass
+
 class HospitalScreen(Screen):
     # hospital_screen = ObjectProperty()
     
     def add_hosp_list(self):
         hc_data = get_hospitals(params=params)
         for hosp in hc_data:
-            self.ids.container.add_widget(ThreeLineListItem(text=hosp['hospital_name'],
+            self.ids.hosp_contain.add_widget(ThreeLineListItem(text=hosp['hospital_name'],
                                                             secondary_text=hosp['address'],
                                                             tertiary_text='{}, {} {}'.format(\
                                                                 hosp['city'], hosp['state'], hosp['zip_code']),
@@ -75,6 +92,9 @@ class myHospitalApp(MDApp):
         sm = ScreenManager(transition=NoTransition())
         sm.add_widget(MenuScreen())
         sm.add_widget(SearchScreen())
+        sm.add_widget(LocationScreen())
+        sm.add_widget(MeasureScreen())
+        sm.add_widget(ResultsScreen())
         sm.add_widget(HospitalScreen())
         sm.add_widget(DetailScreen())
         sm.current = 'menu_screen'
