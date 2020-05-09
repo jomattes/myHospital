@@ -1,8 +1,8 @@
-ScreenManager:
-    MenuScreen:
-    SearchScreen:
-    HospitalScreen:
-    DetailScreen:
+# ScreenManager:
+#     MenuScreen:
+#     SearchScreen:
+#     HospitalScreen:
+#     DetailScreen:
 
 <MenuScreen>:
     name: 'menu_screen'
@@ -19,7 +19,7 @@ ScreenManager:
         
     MDFillRoundFlatButton:
         icon: 'android'
-        text: 'start'
+        text: 'Start'
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         on_press: app.root.current = 'search_screen'
 
@@ -28,6 +28,14 @@ ScreenManager:
 
     ScrollView:
         MDList:
+            OneLineAvatarListItem:
+                text: 'Hospital Name'
+                IconLeftWidget:
+                    icon: 'hospital-box-outline'
+            OneLineAvatarListItem:
+                text: 'Measure'
+                IconLeftWidget:
+                    icon: 'hospital-box-outline'
             OneLineAvatarListItem:
                 text: 'State'
                 IconLeftWidget:
@@ -40,10 +48,14 @@ ScreenManager:
                 text: 'Zip Code'
                 IconLeftWidget:
                     icon: 'map-marker-question-outline'
-            OneLineAvatarListItem:
-                text: 'Measure'
-                IconLeftWidget:
-                    icon: 'hospital-box-outline'
+
+    MDFillRoundFlatButton:
+        icon: 'android'
+        text: 'Filter Results'
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        on_press: app.root.current = 'hospital_screen'
+
+    
 
     # MDDropDownItem:
     #     id: state_drop
@@ -51,12 +63,6 @@ ScreenManager:
     #     text:
 
     # on_enter: root.add_params_list()
-
-    # ScrollView:
-    #     MDGridLayout:
-    #         id: box
-    #         cols: 1
-    #         adaptive_height: True
 
 <HospitalScreen>:
     name: 'hospital_screen'

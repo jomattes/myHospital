@@ -1,4 +1,4 @@
-from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.uix.screenmanager import Screen, ScreenManager, NoTransition
 from kivy.properties import ObjectProperty
 from kivy.lang import Builder
 from kivymd.app import MDApp
@@ -46,20 +46,6 @@ class MenuScreen(Screen):
 
 class SearchScreen(Screen):
     pass
-    
-    
-    
-    # def add_params_list(self, params=params):
-    #     for param, value in params.items():
-    #         self.ids.box.add_widget(MDExpansionPanel(
-    #             content=,
-    #             panel_cls=MDExpansionPanelOneLine(
-    #                 text=param
-    #             )
-    #         )
-    #     )
-
-    
 
 class HospitalScreen(Screen):
     # hospital_screen = ObjectProperty()
@@ -86,7 +72,7 @@ class DetailScreen(Screen):
 class myHospitalApp(MDApp):
     def build(self):
         Builder.load_file('screen.kv')
-        sm = ScreenManager()
+        sm = ScreenManager(transition=NoTransition())
         sm.add_widget(MenuScreen())
         sm.add_widget(SearchScreen())
         sm.add_widget(HospitalScreen())
