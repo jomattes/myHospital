@@ -91,7 +91,7 @@ class myHospitalApp(MDApp):
         sm.add_widget(SearchScreen())
         sm.add_widget(HospitalScreen())
         sm.add_widget(DetailScreen())
-        sm.current = 'search_screen'
+        sm.current = 'menu_screen'
         return sm
 
 if __name__ == '__main__':
