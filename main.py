@@ -2,8 +2,11 @@ from kivy.uix.screenmanager import Screen, ScreenManager, NoTransition
 from kivy.properties import ObjectProperty
 from kivy.lang import Builder
 from kivymd.app import MDApp
-from kivymd.uix.list import ThreeLineListItem, OneLineListItem
-from helpers import GetHCData
+from kivymd.uix.list import ThreeLineListItem, OneLineListItem, OneLineAvatarIconListItem
+from kivymd.uix.menu import MDDropdownMenu
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.button import MDFlatButton
+from helpers import GetHCData, get_state_codes
 
 # def get_hospitals(params, limit=50):
 #     hc_url = 'https://data.medicare.gov/resource/ynj2-r877.json?'
@@ -65,8 +68,34 @@ class MenuScreen(Screen):
 class SearchScreen(Screen):
     pass
 
+class ItemConfirm(OneLineAvatarIconListItem):
+    divider = None
+
+    def set_icon(self, instance_check):
+        instance_check.active = True
+        check_list = instance_check.get_widgets(instance_check.group)
+        for check in check_list:
+            if check != instance_check:
+                check.active = False
+
 class LocationScreen(Screen):
-    pass
+    def add_state_codes(self):
+        states = get_state_codes()
+        # state_dict_list = []
+        # for state in states:
+        #     state_dict = {'type': 'ItemConfirm', 'text': state}
+        #     state_dict_list.append(state_dict)
+
+        self.dialog = MDDialog(
+            title='Select State',
+            type='confirmation',
+            items= [ItemConfirm(text=state) for state in states],
+            buttons=[
+                MDFlatButton(text='CANCEL'),
+                MDFlatButton(text='OK')
+            ]
+        )
+        self.dialog.open()
 
 class MeasureScreen(Screen):
     def add_meas_list(self):

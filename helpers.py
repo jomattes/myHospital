@@ -1,5 +1,12 @@
 import requests
 
+def get_state_codes():
+    return ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", 
+          "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", 
+          "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", 
+          "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", 
+          "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
+
 class GetHCData():
     def __init__(self):
         self.params = {
@@ -22,8 +29,8 @@ class GetHCData():
             'measure_end_date': None   
         }
 
-    def update_hc_params(self, new_params=None):
-        pass
+    def update_hc_params(self, new_params):
+        self.params.update(new_params)
 
     def send_hc_request(self, limit=50):
         hc_url = 'https://data.medicare.gov/resource/ynj2-r877.json?'
