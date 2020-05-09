@@ -3,44 +3,62 @@ from kivy.properties import ObjectProperty
 from kivy.lang import Builder
 from kivymd.app import MDApp
 from kivymd.uix.list import ThreeLineListItem, OneLineListItem
-import requests
+from helpers import GetHCData
 
-def get_hospitals(params, limit=50):
-    hc_url = 'https://data.medicare.gov/resource/ynj2-r877.json?'
-    cnt = 0
-    for i, j in params.items():
-        if j != None:
-            if cnt < len(params):
-                hc_url = hc_url + str(i) + '=' + str(j) + '&'
-            else:
-                hc_url = hc_url + str(i) + '=' + str(j)
-        cnt += 1
-    hc_url = hc_url + '&$limit=' + str(limit)
-    response = requests.get(hc_url)
-    return response.json()
+# def get_hospitals(params, limit=50):
+#     hc_url = 'https://data.medicare.gov/resource/ynj2-r877.json?'
+#     cnt = 0
+#     for i, j in params.items():
+#         if j != None:
+#             if cnt < len(params):
+#                 hc_url = hc_url + str(i) + '=' + str(j) + '&'
+#             else:
+#                 hc_url = hc_url + str(i) + '=' + str(j)
+#         cnt += 1
+#     hc_url = hc_url + '&$limit=' + str(limit)
+#     response = requests.get(hc_url)
+#     return response.json()
 
-params = {
-    'provider_id': None,
-    'hospital_name': None,
-    'address': None,
-    'city': "PORTLAND",
-    'state': "OR",
-    'zip_code': None,
-    'county_name': None,
-    'phone_number': None,
-    'measure_id': None,
-    'measure_name': None,
-    'compared_to_national': None,
-    'denominator': None,
-    'score': None,
-    'lower_estimate': None,
-    'higher_estimate': None,
-    'measure_start_date': None,
-    'measure_end_date': None
-}
+# params = {
+#     'provider_id': None,
+#     'hospital_name': None,
+#     'address': None,
+#     'city': "PORTLAND",
+#     'state': "OR",
+#     'zip_code': None,
+#     'county_name': None,
+#     'phone_number': None,
+#     'measure_id': None,
+#     'measure_name': None,
+#     'compared_to_national': None,
+#     'denominator': None,
+#     'score': None,
+#     'lower_estimate': None,
+#     'higher_estimate': None,
+#     'measure_start_date': None,
+#     'measure_end_date': None
+# }
 
 # KIVY APP BUILD
 #====================================================================================
+class MyScreenManager(ScreenManager):
+    def __init__(self, **kwargs):
+        super(MyScreenManager, self).__init__(**kwargs)
+
+    # def get_hc_params(self, new_params=None):
+    #     if new_params == None:
+    #         # FIXME change to load default params only if new ones have not been added yet
+    #         self.params = params
+    #     else:
+    #         # FIXME change to update only specific params in the dict
+    #         self.params = new_params
+
+    # def get_hc_data(self, params):
+    #     self.hc_data = get_hospitals(params=self.params)
+
+    # def get_hc_measures(self):
+    #     pass
+
 class MenuScreen(Screen):
     pass
 
@@ -52,7 +70,8 @@ class LocationScreen(Screen):
 
 class MeasureScreen(Screen):
     def add_meas_list(self):
-        hc_data = get_hospitals(params=params)
+        # hc_data = get_hospitals(params=params)
+        hc_data = HCData.get_hc_data()
         measure_list = []
         for hosp in hc_data:
             measure_list.append(hosp['measure_name'])
@@ -68,7 +87,8 @@ class HospitalScreen(Screen):
     # hospital_screen = ObjectProperty()
     
     def add_hosp_list(self):
-        hc_data = get_hospitals(params=params)
+        # hc_data = get_hospitals(params=params)
+        hc_data = HCData.get_hc_data()
         for hosp in hc_data:
             self.ids.hosp_contain.add_widget(ThreeLineListItem(text=hosp['hospital_name'],
                                                             secondary_text=hosp['address'],
@@ -89,7 +109,7 @@ class DetailScreen(Screen):
 class myHospitalApp(MDApp):
     def build(self):
         Builder.load_file('screen.kv')
-        sm = ScreenManager(transition=NoTransition())
+        sm = MyScreenManager(transition=NoTransition())
         sm.add_widget(MenuScreen())
         sm.add_widget(SearchScreen())
         sm.add_widget(LocationScreen())
@@ -101,6 +121,9 @@ class myHospitalApp(MDApp):
         return sm
 
 if __name__ == '__main__':
+    HCData = GetHCData()
+    HCData.send_hc_request()
+
     myHospitalApp().run()
 
 #====================================================================================
