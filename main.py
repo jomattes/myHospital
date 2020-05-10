@@ -8,59 +8,18 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 from helpers import GetHCData, get_state_codes
 
-# def get_hospitals(params, limit=50):
-#     hc_url = 'https://data.medicare.gov/resource/ynj2-r877.json?'
-#     cnt = 0
-#     for i, j in params.items():
-#         if j != None:
-#             if cnt < len(params):
-#                 hc_url = hc_url + str(i) + '=' + str(j) + '&'
-#             else:
-#                 hc_url = hc_url + str(i) + '=' + str(j)
-#         cnt += 1
-#     hc_url = hc_url + '&$limit=' + str(limit)
-#     response = requests.get(hc_url)
-#     return response.json()
+from kivy.clock import Clock
 
-# params = {
-#     'provider_id': None,
-#     'hospital_name': None,
-#     'address': None,
-#     'city': "PORTLAND",
-#     'state': "OR",
-#     'zip_code': None,
-#     'county_name': None,
-#     'phone_number': None,
-#     'measure_id': None,
-#     'measure_name': None,
-#     'compared_to_national': None,
-#     'denominator': None,
-#     'score': None,
-#     'lower_estimate': None,
-#     'higher_estimate': None,
-#     'measure_start_date': None,
-#     'measure_end_date': None
-# }
+from kivy.logger import Logger
+Logger.info('Load Logger')
+
+
 
 # KIVY APP BUILD
 #====================================================================================
 class MyScreenManager(ScreenManager):
     def __init__(self, **kwargs):
         super(MyScreenManager, self).__init__(**kwargs)
-
-    # def get_hc_params(self, new_params=None):
-    #     if new_params == None:
-    #         # FIXME change to load default params only if new ones have not been added yet
-    #         self.params = params
-    #     else:
-    #         # FIXME change to update only specific params in the dict
-    #         self.params = new_params
-
-    # def get_hc_data(self, params):
-    #     self.hc_data = get_hospitals(params=self.params)
-
-    # def get_hc_measures(self):
-    #     pass
 
 class MenuScreen(Screen):
     pass
@@ -72,19 +31,27 @@ class ItemConfirm(OneLineAvatarIconListItem):
     divider = None
 
     def set_icon(self, instance_check):
+        # adds check mark to selected items
         instance_check.active = True
         check_list = instance_check.get_widgets(instance_check.group)
         for check in check_list:
             if check != instance_check:
                 check.active = False
 
+    def update_state_param(self):
+        # updates HCData with selected item
+        HCData.update_hc_params({'state': self.text})
+        HCData.send_hc_request()
+
+
 class LocationScreen(Screen):
+    # def close_dialog(self, press):
+    #     # self.dialog.close()
+    #     if press == 'ok':
+    #         HCData.send_hc_request()
+
     def add_state_codes(self):
         states = get_state_codes()
-        # state_dict_list = []
-        # for state in states:
-        #     state_dict = {'type': 'ItemConfirm', 'text': state}
-        #     state_dict_list.append(state_dict)
 
         self.dialog = MDDialog(
             title='Select State',
@@ -97,9 +64,14 @@ class LocationScreen(Screen):
         )
         self.dialog.open()
 
+    # def ok_press(self):
+    #     self.dialog.close()
+
+    # def cancel_press(self):
+    #     pass
+
 class MeasureScreen(Screen):
     def add_meas_list(self):
-        # hc_data = get_hospitals(params=params)
         hc_data = HCData.get_hc_data()
         measure_list = []
         for hosp in hc_data:
@@ -116,8 +88,10 @@ class HospitalScreen(Screen):
     # hospital_screen = ObjectProperty()
     
     def add_hosp_list(self):
-        # hc_data = get_hospitals(params=params)
         hc_data = HCData.get_hc_data()
+
+        self.ids.hosp_contain.clear_widgets()  # refreshes list
+
         for hosp in hc_data:
             self.ids.hosp_contain.add_widget(ThreeLineListItem(text=hosp['hospital_name'],
                                                             secondary_text=hosp['address'],

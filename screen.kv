@@ -4,6 +4,15 @@
 #     HospitalScreen:
 #     DetailScreen:
 
+<ItemConfirm>:
+    name: 'item_confirm'
+    on_release: root.set_icon(check)
+    on_release: root.update_state_param()
+
+    CheckboxRightWidget:
+        id: check
+        group:'check'
+
 <MenuScreen>:
     name: 'menu_screen'
 
@@ -49,15 +58,6 @@
         text: 'Filter Results'
         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
         on_press: app.root.current = 'hospital_screen'
-
-    
-
-    # MDDropDownItem:
-    #     id: state_drop
-    #     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-    #     text:
-
-    # on_enter: root.add_params_list()
 
 <LocationScreen>:
     name: 'location_screen'
@@ -116,6 +116,10 @@
     ScrollView:
         MDList:
             id: hosp_contain
+
+    MDIconButton:
+        icon: "keyboard-backspace"
+        on_press: app.root.current = 'search_screen'
 
 <DetailScreen>:
     name: 'detail_screen'
