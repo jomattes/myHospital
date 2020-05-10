@@ -7,6 +7,7 @@ from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.boxlayout import BoxLayout
+from kivymd.uix.textfield import MDTextField
 from helpers import GetHCData, get_state_codes
 
 from kivy.clock import Clock
@@ -42,7 +43,7 @@ class ItemConfirm(OneLineAvatarIconListItem):
     def update_state_param(self):
         # updates HCData with selected item
         HCData.update_hc_params({'state': self.text})
-        HCData.send_hc_request()
+        # HCData.send_hc_request()
 
 class DialogContent(BoxLayout):
     # allows for blank box in text-entry dialogs, see kivy file for formatting
@@ -50,12 +51,10 @@ class DialogContent(BoxLayout):
 
 
 class LocationScreen(Screen):
-    # def close_dialog(self, press):
-    #     # self.dialog.close()
-    #     if press == 'ok':
-    #         HCData.send_hc_request()
+    dialog = None
 
     def add_state_codes(self):
+        # popup to select state code
         states = get_state_codes()
 
         self.dialog = MDDialog(
@@ -70,22 +69,35 @@ class LocationScreen(Screen):
         self.dialog.open()
 
     def add_city_dialog(self):
-        self.dialog = MDDialog(\
-            title='City',
-            type='custom',
-            content_cls=DialogContent(),
-            buttons=[
-                MDFlatButton(text='CANCEL'),
-                MDFlatButton(text='OK')
-            ]
-        )
+        # popup to enter city name
+        if not self.dialog:
+            self.dialog = MDDialog(
+                title='City',
+                type='custom',
+                content_cls=DialogContent(),
+                buttons=[
+                    MDFlatButton(text='CANCEL', on_release=self.close_dialog),
+                    MDFlatButton(text='OK', on_release=self.update_city_param)
+                ]
+            )
+        self.dialog.set_normal_height()
         self.dialog.open()
+    
+    def grab_text(self, inst):
+        # gets text from textbox in dialog popup
+        for obj in self.dialog.content_cls.children:
+            if isinstance(obj, MDTextField):
+                return obj.text
 
-    # def ok_press(self):
-    #     self.dialog.close()
+    def update_city_param(self, inst):
+        city_text = self.grab_text(inst)
+        # Logger.critical(city_text)
+        HCData.update_hc_params({'city': city_text})
+        # HCData.send_hc_request()
+        self.dialog.dismiss()
 
-    # def cancel_press(self):
-    #     pass
+    def close_dialog(self, inst):
+        self.dialog.dismiss()
 
 class MeasureScreen(Screen):
     def add_meas_list(self):
@@ -105,6 +117,7 @@ class HospitalScreen(Screen):
     # hospital_screen = ObjectProperty()
     
     def add_hosp_list(self):
+        HCData.send_hc_request()
         hc_data = HCData.get_hc_data()
 
         self.ids.hosp_contain.clear_widgets()  # refreshes list
