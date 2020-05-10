@@ -15,6 +15,9 @@ from kivy.clock import Clock
 from kivy.logger import Logger
 Logger.info('Load Logger')
 
+# globals
+global_state = None
+
 
 
 # KIVY APP BUILD
@@ -39,11 +42,10 @@ class ItemConfirm(OneLineAvatarIconListItem):
         for check in check_list:
             if check != instance_check:
                 check.active = False
-
-    def update_state_param(self):
-        # updates HCData with selected item
-        HCData.update_hc_params({'state': self.text})
-        # HCData.send_hc_request()
+        
+        # updates global state value
+        global global_state
+        global_state = self.text
 
 class DialogContent(BoxLayout):
     # allows for blank box in text-entry dialogs, see kivy file for formatting
@@ -51,9 +53,7 @@ class DialogContent(BoxLayout):
 
 
 class LocationScreen(Screen):
-    dialog = None
-
-    def add_state_codes(self):
+    def add_state_dialog(self):
         # popup to select state code
         states = get_state_codes()
 
@@ -62,23 +62,23 @@ class LocationScreen(Screen):
             type='confirmation',
             items= [ItemConfirm(text=state) for state in states],
             buttons=[
-                MDFlatButton(text='CANCEL'),
-                MDFlatButton(text='OK')
+                MDFlatButton(text='CANCEL', on_release=self.close_dialog),
+                MDFlatButton(text='OK', on_release=self.update_state_param)
             ]
-        )
+            )
+        self.dialog.set_normal_height()
         self.dialog.open()
 
     def add_city_dialog(self):
         # popup to enter city name
-        if not self.dialog:
-            self.dialog = MDDialog(
-                title='City',
-                type='custom',
-                content_cls=DialogContent(),
-                buttons=[
-                    MDFlatButton(text='CANCEL', on_release=self.close_dialog),
-                    MDFlatButton(text='OK', on_release=self.update_city_param)
-                ]
+        self.dialog = MDDialog(
+            title='City',
+            type='custom',
+            content_cls=DialogContent(),
+            buttons=[
+                MDFlatButton(text='CANCEL', on_release=self.close_dialog),
+                MDFlatButton(text='OK', on_release=self.update_city_param)
+            ]
             )
         self.dialog.set_normal_height()
         self.dialog.open()
@@ -89,14 +89,19 @@ class LocationScreen(Screen):
             if isinstance(obj, MDTextField):
                 return obj.text
 
+    def update_state_param(self, inst):
+        # updates parameters based on add_state_dialog() option
+        HCData.update_hc_params({'state': global_state})
+        self.dialog.dismiss()
+
     def update_city_param(self, inst):
+        # updates parameters based on add_city_dialog() option
         city_text = self.grab_text(inst)
-        # Logger.critical(city_text)
         HCData.update_hc_params({'city': city_text})
-        # HCData.send_hc_request()
         self.dialog.dismiss()
 
     def close_dialog(self, inst):
+        # closes popup, used when CANCEL button is pressed
         self.dialog.dismiss()
 
 class MeasureScreen(Screen):

@@ -7,7 +7,7 @@
 <ItemConfirm>:
     name: 'item_confirm'
     on_release: root.set_icon(check)
-    on_release: root.update_state_param()
+    # on_release: root.update_state_param()
 
     CheckboxRightWidget:
         id: check
@@ -79,7 +79,7 @@
                     icon: 'hospital-box-outline'
             OneLineAvatarListItem:
                 text: 'State'
-                on_release: root.add_state_codes()
+                on_release: root.add_state_dialog()
                 IconLeftWidget:
                     icon: 'map-marker-question-outline'
             OneLineAvatarListItem:
