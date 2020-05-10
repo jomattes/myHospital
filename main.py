@@ -6,6 +6,7 @@ from kivymd.uix.list import ThreeLineListItem, OneLineListItem, OneLineAvatarIco
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
+from kivymd.uix.boxlayout import BoxLayout
 from helpers import GetHCData, get_state_codes
 
 from kivy.clock import Clock
@@ -43,6 +44,10 @@ class ItemConfirm(OneLineAvatarIconListItem):
         HCData.update_hc_params({'state': self.text})
         HCData.send_hc_request()
 
+class DialogContent(BoxLayout):
+    # allows for blank box in text-entry dialogs, see kivy file for formatting
+    pass
+
 
 class LocationScreen(Screen):
     # def close_dialog(self, press):
@@ -54,9 +59,21 @@ class LocationScreen(Screen):
         states = get_state_codes()
 
         self.dialog = MDDialog(
-            title='Select State',
+            title='State',
             type='confirmation',
             items= [ItemConfirm(text=state) for state in states],
+            buttons=[
+                MDFlatButton(text='CANCEL'),
+                MDFlatButton(text='OK')
+            ]
+        )
+        self.dialog.open()
+
+    def add_city_dialog(self):
+        self.dialog = MDDialog(\
+            title='City',
+            type='custom',
+            content_cls=DialogContent(),
             buttons=[
                 MDFlatButton(text='CANCEL'),
                 MDFlatButton(text='OK')

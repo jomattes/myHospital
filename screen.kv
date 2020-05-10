@@ -13,6 +13,15 @@
         id: check
         group:'check'
 
+<DialogContent>:
+    orientation: 'vertical'
+    spacing: '12dp'
+    size_hint_y: None
+    height: '120dp'
+
+    MDTextField:
+        hint_text: 'Enter Value'
+
 <MenuScreen>:
     name: 'menu_screen'
 
@@ -75,6 +84,7 @@
                     icon: 'map-marker-question-outline'
             OneLineAvatarListItem:
                 text: 'City'
+                on_release: root.add_city_dialog()
                 IconLeftWidget:
                     icon: 'map-marker-question-outline'
             OneLineAvatarListItem:
