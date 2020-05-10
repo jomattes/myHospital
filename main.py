@@ -82,6 +82,20 @@ class LocationScreen(Screen):
             )
         self.dialog.set_normal_height()
         self.dialog.open()
+
+    def add_zip_dialog(self):
+        # popup to enter zip code
+        self.dialog = MDDialog(
+            title='Zip',
+            type='custom',
+            content_cls=DialogContent(),
+            buttons=[
+                MDFlatButton(text='CANCEL', on_release=self.close_dialog),
+                MDFlatButton(text='OK', on_release=self.update_zip_param)
+            ]
+        )
+        self.dialog.set_normal_height()
+        self.dialog.open()
     
     def grab_text(self, inst):
         # gets text from textbox in dialog popup
@@ -98,6 +112,12 @@ class LocationScreen(Screen):
         # updates parameters based on add_city_dialog() option
         city_text = self.grab_text(inst)
         HCData.update_hc_params({'city': city_text})
+        self.dialog.dismiss()
+
+    def update_zip_param(self, inst):
+        # updates parameters based on add_zip_dialog() option
+        zip_text = self.grab_text(inst)
+        HCData.update_hc_params({'zip_code': zip_text})
         self.dialog.dismiss()
 
     def close_dialog(self, inst):
