@@ -1,6 +1,7 @@
 from kivy.uix.screenmanager import Screen, ScreenManager, NoTransition
 from kivy.properties import ObjectProperty
 from kivy.lang import Builder
+from kivy.logger import Logger
 from kivymd.app import MDApp
 from kivymd.uix.list import ThreeLineListItem, OneLineListItem, OneLineAvatarIconListItem
 from kivymd.uix.menu import MDDropdownMenu
@@ -8,30 +9,17 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.boxlayout import BoxLayout
 from kivymd.uix.textfield import MDTextField
+
 from helpers import GetHCData, get_state_codes
 
-from kivy.clock import Clock
-
-from kivy.logger import Logger
+# start logger (useful for debugging)
 Logger.info('Load Logger')
 
 # globals
 global_state = None
 
-
-
-# KIVY APP BUILD
+# WIDGETS
 #====================================================================================
-class MyScreenManager(ScreenManager):
-    def __init__(self, **kwargs):
-        super(MyScreenManager, self).__init__(**kwargs)
-
-class MenuScreen(Screen):
-    pass
-
-class SearchScreen(Screen):
-    pass
-
 class ItemConfirm(OneLineAvatarIconListItem):
     divider = None
 
@@ -50,7 +38,19 @@ class ItemConfirm(OneLineAvatarIconListItem):
 class DialogContent(BoxLayout):
     # allows for blank box in text-entry dialogs, see kivy file for formatting
     pass
+#====================================================================================
 
+# SCREENS & SCREEN MANAGEMENT
+#====================================================================================
+class MyScreenManager(ScreenManager):
+    def __init__(self, **kwargs):
+        super(MyScreenManager, self).__init__(**kwargs)
+
+class MenuScreen(Screen):
+    pass
+
+class SearchScreen(Screen):
+    pass
 
 class LocationScreen(Screen):
     def add_state_dialog(self):
@@ -134,7 +134,6 @@ class MeasureScreen(Screen):
         for meas in measures:
             self.ids.meas_contain.add_widget(OneLineListItem(text=meas))
 
-
 class ResultsScreen(Screen):
     pass
 
@@ -163,7 +162,10 @@ class DetailScreen(Screen):
 
     def screen_switch_details(self):
         self.manager.current = 'hospital_screen'
+#====================================================================================
 
+# KIVY APP BUILD
+#====================================================================================
 class myHospitalApp(MDApp):
     def build(self):
         Builder.load_file('screen.kv')
@@ -183,5 +185,4 @@ if __name__ == '__main__':
     HCData.send_hc_request()
 
     myHospitalApp().run()
-
 #====================================================================================
