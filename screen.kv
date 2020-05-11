@@ -103,11 +103,23 @@
 
 <MeasureScreen>:
     name: 'measure_screen'
-    on_enter: root.add_meas_list()
-
     ScrollView:
         MDList:
-            id: meas_contain
+            OneLineAvatarListItem:
+                text: 'Measure Name'
+                on_release: root.add_meas_dialog()
+                IconLeftWidget:
+                    icon: 'hospital-box-outline'
+            OneLineAvatarListItem:
+                text: 'Benchmark Value'
+                IconLeftWidget:
+                    icon: 'hospital-box-outline'
+
+    # on_enter: root.add_meas_list()
+
+    # ScrollView:
+    #     MDList:
+    #         id: meas_contain
 
     MDIconButton:
         icon: "keyboard-backspace"

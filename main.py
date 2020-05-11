@@ -10,13 +10,13 @@ from kivymd.uix.button import MDFlatButton
 from kivymd.uix.boxlayout import BoxLayout
 from kivymd.uix.textfield import MDTextField
 
-from helpers import GetHCData, get_state_codes
+from helpers import GetHCData, get_state_codes, get_comp_measures
 
 # start logger (useful for debugging)
 Logger.info('Load Logger')
 
 # globals
-global_state = None
+global_text = None
 
 # WIDGETS
 #====================================================================================
@@ -32,8 +32,8 @@ class ItemConfirm(OneLineAvatarIconListItem):
                 check.active = False
         
         # updates global state value
-        global global_state
-        global_state = self.text
+        global global_text
+        global_text = self.text
 
 class DialogContent(BoxLayout):
     # allows for blank box in text-entry dialogs, see kivy file for formatting
@@ -124,7 +124,7 @@ class LocationScreen(Screen):
 
     def update_state_param(self, inst):
         # updates parameters based on add_state_dialog() option
-        HCData.update_hc_params({'state': global_state})
+        HCData.update_hc_params({'state': global_text})
         self.dialog.dismiss()
 
     def update_city_param(self, inst):
@@ -144,14 +144,39 @@ class LocationScreen(Screen):
         self.dialog.dismiss()
 
 class MeasureScreen(Screen):
-    def add_meas_list(self):
-        hc_data = HCData.get_hc_data()
-        measure_list = []
-        for hosp in hc_data:
-            measure_list.append(hosp['measure_name'])
-        measures = set(measure_list)
-        for meas in measures:
-            self.ids.meas_contain.add_widget(OneLineListItem(text=meas))
+    def add_meas_dialog(self):
+        # popup to select measure
+        measures = get_comp_measures().values()
+
+        self.dialog = MDDialog(
+            title='Measure',
+            type='confirmation',
+            items=[ItemConfirm(text=meas) for meas in measures],
+            buttons=[
+                MDFlatButton(text='CANCEL', on_release=self.close_dialog),
+                MDFlatButton(text='OK', on_release=self.update_meas_param)
+            ]
+        )
+        self.dialog.set_normal_height()
+        self.dialog.open()
+
+    def update_meas_param(self, inst):
+        # updates parameters based on add_meas_dialog() option
+        HCData.update_hc_params({'measure_name': global_text})
+        self.dialog.dismiss()
+
+    def close_dialog(self, inst):
+        # closes popup, used when CANCEL button is pressed
+        self.dialog.dismiss()
+
+    # def add_meas_list(self):
+    #     hc_data = HCData.get_hc_data()
+    #     measure_list = []
+    #     for hosp in hc_data:
+    #         measure_list.append(hosp['measure_name'])
+    #     measures = set(measure_list)
+    #     for meas in measures:
+    #         self.ids.meas_contain.add_widget(OneLineListItem(text=meas))
 
 class ResultsScreen(Screen):
     pass
