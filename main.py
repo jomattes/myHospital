@@ -53,6 +53,20 @@ class SearchScreen(Screen):
     pass
 
 class LocationScreen(Screen):
+    def add_hosp_dialog(self):
+        # popup to enter hospital name
+        self.dialog = MDDialog(
+            title='Hospital',
+            type='custom',
+            content_cls=DialogContent(),
+            buttons=[
+                MDFlatButton(text='CANCEL', on_release=self.close_dialog),
+                MDFlatButton(text='OK', on_release=self.update_hosp_param)
+            ]
+        )
+        self.dialog.set_normal_height()
+        self.dialog.open()
+
     def add_state_dialog(self):
         # popup to select state code
         states = get_state_codes()
@@ -103,6 +117,11 @@ class LocationScreen(Screen):
             if isinstance(obj, MDTextField):
                 return obj.text
 
+    def update_hosp_param(self, inst):
+        hosp_text = self.grab_text(inst).upper()
+        HCData.update_hc_params({'hospital_name': hosp_text})
+        self.dialog.dismiss()
+
     def update_state_param(self, inst):
         # updates parameters based on add_state_dialog() option
         HCData.update_hc_params({'state': global_state})
@@ -110,7 +129,7 @@ class LocationScreen(Screen):
 
     def update_city_param(self, inst):
         # updates parameters based on add_city_dialog() option
-        city_text = self.grab_text(inst)
+        city_text = self.grab_text(inst).upper()
         HCData.update_hc_params({'city': city_text})
         self.dialog.dismiss()
 
