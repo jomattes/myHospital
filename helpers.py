@@ -21,11 +21,12 @@ class GetHCData():
             'measure_start_date': None,
             'measure_end_date': None   
         }
+        self.limit = 50
 
     def update_hc_params(self, new_params):
         self.params.update(new_params)
 
-    def send_hc_request(self, limit=50):
+    def send_hc_request(self):
         hc_url = 'https://data.medicare.gov/resource/ynj2-r877.json?'
         cnt = 0
         for i, j in self.params.items():
@@ -35,7 +36,7 @@ class GetHCData():
                 else:
                     hc_url = hc_url + str(i) + '=' + str(j)
             cnt += 1
-        hc_url = hc_url + '&$limit=' + str(limit)
+        hc_url = hc_url + '&$limit=' + str(self.limit)
         response = requests.get(hc_url)
         self.hc_data = response.json()
 

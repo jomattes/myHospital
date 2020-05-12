@@ -1,6 +1,7 @@
 from kivy.uix.screenmanager import Screen, ScreenManager, NoTransition
 from kivy.properties import ObjectProperty
 from kivy.lang import Builder
+from kivy.clock import Clock
 from kivy.logger import Logger
 from kivymd.app import MDApp
 from kivymd.uix.list import ThreeLineListItem, OneLineListItem, OneLineAvatarIconListItem
@@ -179,7 +180,14 @@ class MeasureScreen(Screen):
     #         self.ids.meas_contain.add_widget(OneLineListItem(text=meas))
 
 class ResultsScreen(Screen):
-    pass
+    def update_limit_param(self, value):
+    #     Logger.critical(value)
+        HCData.limit = int(value)
+
+    def on_slider_change(self, value):
+        # Clock.schedule_once(lambda dt: self.update_limit_param(value), 1)
+        # Logger.critical(value)
+        self.update_limit_param(value)
 
 class HospitalScreen(Screen):
     # hospital_screen = ObjectProperty()
