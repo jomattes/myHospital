@@ -1,0 +1,56 @@
+,HCAHPS Measure ID,HCAHPS Question
+0,H_STAR_RATING,Summary star rating
+1,H_CLEAN_HSP_A_P,"Patients who reported that their room and bathroom were ""Always"" clean"
+2,H_CLEAN_HSP_SN_P,"Patients who reported that their room and bathroom were ""Sometimes"" or ""Never"" clean"
+3,H_CLEAN_HSP_U_P,"Patients who reported that their room and bathroom were ""Usually"" clean"
+4,H_CLEAN_LINEAR_SCORE,Cleanliness - linear mean score
+5,H_CLEAN_STAR_RATING,Cleanliness - star rating
+6,H_COMP_1_A_P,"Patients who reported that their nurses ""Always"" communicated well"
+7,H_COMP_1_LINEAR_SCORE,Nurse communication - linear mean score
+8,H_COMP_1_SN_P,"Patients who reported that their nurses ""Sometimes"" or ""Never"" communicated well"
+9,H_COMP_1_STAR_RATING,Nurse communication - star rating
+10,H_COMP_1_U_P,"Patients who reported that their nurses ""Usually"" communicated well"
+11,H_COMP_2_A_P,"Patients who reported that their doctors ""Always"" communicated well"
+12,H_COMP_2_LINEAR_SCORE,Doctor communication - linear mean score
+13,H_COMP_2_SN_P,"Patients who reported that their doctors ""Sometimes"" or ""Never"" communicated well"
+14,H_COMP_2_STAR_RATING,Doctor communication - star rating
+15,H_COMP_2_U_P,"Patients who reported that their doctors ""Usually"" communicated well"
+16,H_COMP_3_A_P,"Patients who reported that they ""Always"" received help as soon as they wanted"
+17,H_COMP_3_LINEAR_SCORE,Staff responsiveness - linear mean score
+18,H_COMP_3_SN_P,"Patients who reported that they ""Sometimes"" or ""Never"" received help as soon as they wanted"
+19,H_COMP_3_STAR_RATING,Staff responsiveness - star rating
+20,H_COMP_3_U_P,"Patients who reported that they ""Usually"" received help as soon as they wanted"
+21,H_COMP_4_A_P,"Patients who reported that their pain was ""Always"" well controlled"
+22,H_COMP_4_LINEAR_SCORE,Pain management - linear mean score
+23,H_COMP_4_SN_P,"Patients who reported that their pain was ""Sometimes"" or ""Never"" well controlled"
+24,H_COMP_4_STAR_RATING,Pain management - star rating
+25,H_COMP_4_U_P,"Patients who reported that their pain was ""Usually"" well controlled"
+26,H_COMP_5_A_P,"Patients who reported that staff ""Always"" explained about medicines before giving it to them"
+27,H_COMP_5_LINEAR_SCORE,Communication about medicines - linear mean score
+28,H_COMP_5_SN_P,"Patients who reported that staff ""Sometimes"" or ""Never"" explained about medicines before giving it to them"
+29,H_COMP_5_STAR_RATING,Communication about medicines - star rating
+30,H_COMP_5_U_P,"Patients who reported that staff ""Usually"" explained about medicines before giving it to them"
+31,H_COMP_6_LINEAR_SCORE,Discharge information - linear mean score
+32,H_COMP_6_N_P,"Patients who reported that NO, they were not given information about what to do during their recovery at home"
+33,H_COMP_6_STAR_RATING,Discharge information - star rating
+34,H_COMP_6_Y_P,"Patients who reported that YES, they were given information about what to do during their recovery at home"
+35,H_COMP_7_A,Patients who �Agree� they understood their care when they left the hospital
+36,H_COMP_7_D_SD,Patients who �Disagree� or �Strongly Disagree� they understood their care when they left the hospital
+37,H_COMP_7_LINEAR_SCORE,Care transition - linear mean score
+38,H_COMP_7_SA,"Patients who ""Strongly Agree"" they understood their care when they left the hospital"
+39,H_COMP_7_STAR_RATING,Care transition - star rating
+40,H_HSP_RATING_0_6,Patients who gave their hospital a rating of 6 or lower on a scale from 0 (lowest) to 10 (highest)
+41,H_HSP_RATING_7_8,Patients who gave their hospital a rating of 7 or 8 on a scale from 0 (lowest) to 10 (highest)
+42,H_HSP_RATING_9_10,Patients who gave their hospital a rating of 9 or 10 on a scale from 0 (lowest) to 10 (highest)
+43,H_HSP_RATING_LINEAR_SCORE,Overall hospital rating - linear mean score
+44,H_HSP_RATING_STAR_RATING,Overall hospital rating - star rating
+45,H_QUIET_HSP_A_P,"Patients who reported that the area around their room was ""Always"" quiet at night"
+46,H_QUIET_HSP_SN_P,"Patients who reported that the area around their room was ""Sometimes"" or ""Never"" quiet at night"
+47,H_QUIET_HSP_U_P,"Patients who reported that the area around their room was ""Usually"" quiet at night"
+48,H_QUIET_LINEAR_SCORE,Quietness - linear mean score
+49,H_QUIET_STAR_RATING,Quietness - star rating
+50,H_RECMND_DN,"Patients who reported NO, they would probably not or definitely not recommend the hospital"
+51,H_RECMND_DY,"Patients who reported YES, they would definitely recommend the hospital"
+52,H_RECMND_LINEAR_SCORE,Recommend hospital - linear mean score
+53,H_RECMND_PY,"Patients who reported YES, they would probably recommend the hospital"
+54,H_RECMND_STAR_RATING,Recommend hospital - star rating
