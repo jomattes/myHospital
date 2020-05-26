@@ -26,8 +26,11 @@ class GetHCData():
     def update_hc_params(self, new_params):
         self.params.update(new_params)
 
-    def send_hc_request(self):
-        hc_url = 'https://data.medicare.gov/resource/ynj2-r877.json?'
+    def send_hc_request(self, hcahps=False):
+        if hcahps:
+            hc_url = 'https://data.medicare.gov/resource/dgck-syfz.json?'
+        else:
+            hc_url = 'https://data.medicare.gov/resource/ynj2-r877.json?'
         cnt = 0
         for i, j in self.params.items():
             if j != None:
