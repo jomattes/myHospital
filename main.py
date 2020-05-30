@@ -193,17 +193,28 @@ class HospitalScreen(Screen):
     # hospital_screen = ObjectProperty()
     
     def add_hosp_list(self):
-        HCData.send_hc_request()
-        hc_data = HCData.get_hc_data()
+        if global_text == None:
+            # add popup text to say "PLEASE SELECT A MEASURE"
+            self.manager.current = 'search_screen'
 
-        self.ids.hosp_contain.clear_widgets()  # refreshes list
+            self.dialog = MDDialog(
+                text = 'Please Select a Measure'
+            )
+            self.dialog.set_normal_height()
+            self.dialog.open()
 
-        for hosp in hc_data:
-            self.ids.hosp_contain.add_widget(ThreeLineListItem(text=hosp['hospital_name'],
-                                                            secondary_text=hosp['address'],
-                                                            tertiary_text='{}, {} {}'.format(\
-                                                                hosp['city'], hosp['state'], hosp['zip_code']),
-                                                            on_release=self.switch_screen))
+        else:
+            HCData.send_hc_request()
+            hc_data = HCData.get_hc_data()
+
+            self.ids.hosp_contain.clear_widgets()  # refreshes list
+
+            for hosp in hc_data:
+                self.ids.hosp_contain.add_widget(ThreeLineListItem(text=hosp['hospital_name'],
+                                                                secondary_text=hosp['address'],
+                                                                tertiary_text='{}, {} {}'.format(\
+                                                                    hosp['city'], hosp['state'], hosp['zip_code']),
+                                                                on_release=self.switch_screen))
     
     def switch_screen(self, list_item):
         hc_data = HCData.get_hc_data()
