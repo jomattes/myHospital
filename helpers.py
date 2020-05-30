@@ -46,6 +46,15 @@ class GetHCData():
     def get_hc_data(self):
         return self.hc_data
 
+class GetModelData():
+    def __init__(self):
+        pass
+
+    def send_request(self):
+        url = 'http://127.0.0.1:8000/model_results/'
+        response = requests.get(url)
+        self.req_data = response.json()
+
 def get_state_codes():
     return ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", 
           "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", 
