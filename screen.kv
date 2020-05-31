@@ -4,6 +4,176 @@
 #     HospitalScreen:
 #     DetailScreen:
 
+<ContentNavigationDrawer>:
+
+    ScrollView:
+
+        MDList:
+
+            OneLineListItem:
+                text: 'Account'
+
+            OneLineListItem:
+                text: 'Choose Filters'
+                on_press:
+                    root.nav_drawer.set_state('close')
+                    root.screen_manager.current = 'search_screen'
+
+Screen:
+
+    MDToolbar:
+        id: toolbar
+        pos_hint: {'top': 1}
+        elevation: 10
+        title: 'myHospital'
+        left_action_items: [['menu', lambda x: nav_drawer.set_state('open')]]
+
+    NavigationLayout:
+        x: toolbar.height
+
+        ScreenManager:
+            id: screen_manager
+
+            MenuScreen:
+                name: 'menu_screen'
+
+                Image:
+                    source: 'assets/logo.png'
+                    keep_ratio: True
+                    size_hint: 0.5, 0.5
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.7}
+                    
+                MDFillRoundFlatButton:
+                    icon: 'android'
+                    text: 'Start'
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                    on_press: screen_manager.current = 'search_screen'
+                    
+            SearchScreen:
+                name: 'search_screen'
+
+                ScrollView:
+                    MDList:
+                        OneLineAvatarListItem:
+                            text: 'Location'
+                            on_release: screen_manager.current = 'location_screen'
+                            IconLeftWidget:
+                                icon: 'hospital-box-outline'
+                        OneLineAvatarListItem:
+                            text: 'Measure'
+                            on_release: app.root.current = 'measure_screen'
+                            IconLeftWidget:
+                                icon: 'hospital-box-outline'
+                        OneLineAvatarListItem:
+                            text: 'Results'
+                            on_release: screen_manager.current = 'results_screen'
+                            IconLeftWidget:
+                                icon: 'hospital-box-outline'
+
+                MDFillRoundFlatButton:
+                    icon: 'android'
+                    text: 'View Hospitals'
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+                    on_press: screen_manager.current = 'hospital_screen'
+            
+            LocationScreen:
+                name: 'location_screen'
+                ScrollView:
+                    MDList:
+                        OneLineAvatarListItem:
+                            text: 'Hospital Name'
+                            on_release: root.add_hosp_dialog()
+                            IconLeftWidget:
+                                icon: 'hospital-box-outline'
+                        OneLineAvatarListItem:
+                            text: 'State'
+                            on_release: root.add_state_dialog()
+                            IconLeftWidget:
+                                icon: 'map-marker-question-outline'
+                        OneLineAvatarListItem:
+                            text: 'City'
+                            on_release: root.add_city_dialog()
+                            IconLeftWidget:
+                                icon: 'map-marker-question-outline'
+                        OneLineAvatarListItem:
+                            text: 'Zip Code'
+                            on_release: root.add_zip_dialog()
+                            IconLeftWidget:
+                                icon: 'map-marker-question-outline'
+
+                MDIconButton:
+                    icon: "keyboard-backspace"
+                    on_press: screen_manager.current = 'search_screen'
+
+            MeasureScreen:
+                name: 'measure_screen'
+                ScrollView:
+                    MDList:
+                        OneLineAvatarListItem:
+                            text: 'Measure Name'
+                            on_release: root.add_meas_dialog()
+                            IconLeftWidget:
+                                icon: 'hospital-box-outline'
+                        OneLineAvatarListItem:
+                            text: 'Benchmark Value'
+                            IconLeftWidget:
+                                icon: 'hospital-box-outline'
+
+                MDIconButton:
+                    icon: "keyboard-backspace"
+                    on_press: screen_manager.current = 'search_screen'
+            
+            ResultsScreen:
+                name: 'results_screen'
+
+                GridLayout:
+                    cols: 1
+
+                    MDLabel:
+                        text: 'Max Hospitals in Results'
+                        halign: 'center'
+
+                    MDSlider:
+                        id: results_slider
+                        min: 0
+                        max: 200
+                        value: 50
+                        on_touch_up: app.on_slider_change(self.value)
+
+                MDIconButton:
+                    icon: "keyboard-backspace"
+                    on_press: screen_manager.current = 'search_screen'
+
+            HospitalScreen:
+                name: 'hospital_screen'
+                on_enter: root.add_hosp_list()
+
+                ScrollView:
+                    MDList:
+                        id: hosp_contain
+
+                MDIconButton:
+                    icon: "keyboard-backspace"
+                    on_press:screen_manager.current = 'search_screen'
+
+            DetailScreen:
+                name: 'detail_screen'
+
+                MDLabel:
+                    id: screen2_label
+                    halign: 'center'
+
+                MDIconButton:
+                    icon: "keyboard-backspace"
+                    on_press: screen_manager.current = 'hospital_screen'
+
+        MDNavigationDrawer:
+            id: nav_drawer
+
+            ContentNavigationDrawer:
+                screen_manager: screen_manager
+                nav_drawer: nav_drawer
+
 <ItemConfirm>:
     name: 'item_confirm'
     on_release: root.set_icon(check)
@@ -22,149 +192,135 @@
     MDTextField:
         hint_text: 'Enter Value'
 
-<MenuScreen>:
-    name: 'menu_screen'
+# <MenuScreen>:
+#     name: 'menu_screen'
 
-    Image:
-        source: 'assets/logo.png'
-        keep_ratio: True
-        size_hint: 0.5, 0.5
-        pos_hint: {'center_x': 0.5, 'center_y': 0.7}
-    
-    # AnchorLayout:
-    #     anchor_x: 'center'
-    #     anchor_y: 'center'
+#     Image:
+#         source: 'assets/logo.png'
+#         keep_ratio: True
+#         size_hint: 0.5, 0.5
+#         pos_hint: {'center_x': 0.5, 'center_y': 0.7}
         
-    MDFillRoundFlatButton:
-        icon: 'android'
-        text: 'Start'
-        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-        on_press: app.root.current = 'search_screen'
+#     MDFillRoundFlatButton:
+#         icon: 'android'
+#         text: 'Start'
+#         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+#         on_press: app.root.current = 'search_screen'
 
-<SearchScreen>:
-    name: 'search_screen'
+# <SearchScreen>:
+#     name: 'search_screen'
 
-    ScrollView:
-        MDList:
-            OneLineAvatarListItem:
-                text: 'Location'
-                on_release: app.root.current = 'location_screen'
-                IconLeftWidget:
-                    icon: 'hospital-box-outline'
-            OneLineAvatarListItem:
-                text: 'Measure'
-                on_release: app.root.current = 'measure_screen'
-                IconLeftWidget:
-                    icon: 'hospital-box-outline'
-            OneLineAvatarListItem:
-                text: 'Results'
-                on_release: app.root.current = 'results_screen'
-                IconLeftWidget:
-                    icon: 'hospital-box-outline'
+#     ScrollView:
+#         MDList:
+#             OneLineAvatarListItem:
+#                 text: 'Location'
+#                 on_release: app.root.current = 'location_screen'
+#                 IconLeftWidget:
+#                     icon: 'hospital-box-outline'
+#             OneLineAvatarListItem:
+#                 text: 'Measure'
+#                 on_release: app.root.current = 'measure_screen'
+#                 IconLeftWidget:
+#                     icon: 'hospital-box-outline'
+#             OneLineAvatarListItem:
+#                 text: 'Results'
+#                 on_release: app.root.current = 'results_screen'
+#                 IconLeftWidget:
+#                     icon: 'hospital-box-outline'
 
-    MDFillRoundFlatButton:
-        icon: 'android'
-        text: 'View Hospitals'
-        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-        on_press: app.root.current = 'hospital_screen'
+#     MDFillRoundFlatButton:
+#         icon: 'android'
+#         text: 'View Hospitals'
+#         pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+#         on_press: app.root.current = 'hospital_screen'
 
-<LocationScreen>:
-    name: 'location_screen'
-    ScrollView:
-        MDList:
-            OneLineAvatarListItem:
-                text: 'Hospital Name'
-                on_release: root.add_hosp_dialog()
-                IconLeftWidget:
-                    icon: 'hospital-box-outline'
-            OneLineAvatarListItem:
-                text: 'State'
-                on_release: root.add_state_dialog()
-                IconLeftWidget:
-                    icon: 'map-marker-question-outline'
-            OneLineAvatarListItem:
-                text: 'City'
-                on_release: root.add_city_dialog()
-                IconLeftWidget:
-                    icon: 'map-marker-question-outline'
-            OneLineAvatarListItem:
-                text: 'Zip Code'
-                on_release: root.add_zip_dialog()
-                IconLeftWidget:
-                    icon: 'map-marker-question-outline'
-            # OneLineAvatarListItem:
-            #     text: 'Distance'
-            #     IconLeftWidget:
-            #         icon: 'map-marker-question-outline'
+# <LocationScreen>:
+#     name: 'location_screen'
+#     ScrollView:
+#         MDList:
+#             OneLineAvatarListItem:
+#                 text: 'Hospital Name'
+#                 on_release: root.add_hosp_dialog()
+#                 IconLeftWidget:
+#                     icon: 'hospital-box-outline'
+#             OneLineAvatarListItem:
+#                 text: 'State'
+#                 on_release: root.add_state_dialog()
+#                 IconLeftWidget:
+#                     icon: 'map-marker-question-outline'
+#             OneLineAvatarListItem:
+#                 text: 'City'
+#                 on_release: root.add_city_dialog()
+#                 IconLeftWidget:
+#                     icon: 'map-marker-question-outline'
+#             OneLineAvatarListItem:
+#                 text: 'Zip Code'
+#                 on_release: root.add_zip_dialog()
+#                 IconLeftWidget:
+#                     icon: 'map-marker-question-outline'
 
-    MDIconButton:
-        icon: "keyboard-backspace"
-        on_press: app.root.current = 'search_screen'
+#     MDIconButton:
+#         icon: "keyboard-backspace"
+#         on_press: app.root.current = 'search_screen'
 
-<MeasureScreen>:
-    name: 'measure_screen'
-    ScrollView:
-        MDList:
-            OneLineAvatarListItem:
-                text: 'Measure Name'
-                on_release: root.add_meas_dialog()
-                IconLeftWidget:
-                    icon: 'hospital-box-outline'
-            OneLineAvatarListItem:
-                text: 'Benchmark Value'
-                IconLeftWidget:
-                    icon: 'hospital-box-outline'
+# <MeasureScreen>:
+#     name: 'measure_screen'
+#     ScrollView:
+#         MDList:
+#             OneLineAvatarListItem:
+#                 text: 'Measure Name'
+#                 on_release: root.add_meas_dialog()
+#                 IconLeftWidget:
+#                     icon: 'hospital-box-outline'
+#             OneLineAvatarListItem:
+#                 text: 'Benchmark Value'
+#                 IconLeftWidget:
+#                     icon: 'hospital-box-outline'
 
-    # on_enter: root.add_meas_list()
+#     MDIconButton:
+#         icon: "keyboard-backspace"
+#         on_press: app.root.current = 'search_screen'
+
+# <ResultsScreen>:
+    # name: 'results_screen'
+
+    # GridLayout:
+    #     cols: 1
+
+    #     MDLabel:
+    #         text: 'Max Hospitals in Results'
+    #         halign: 'center'
+
+    #     MDSlider:
+    #         id: results_slider
+    #         min: 0
+    #         max: 200
+    #         value: 50
+    #         on_touch_up: root.on_slider_change(self.value)
+
+    # MDIconButton:
+    #     icon: "keyboard-backspace"
+    #     on_press: app.root.current = 'search_screen'
+
+# <HospitalScreen>:
+    # name: 'hospital_screen'
+    # on_enter: root.add_hosp_list()
 
     # ScrollView:
     #     MDList:
-    #         id: meas_contain
+    #         id: hosp_contain
 
-    MDIconButton:
-        icon: "keyboard-backspace"
-        on_press: app.root.current = 'search_screen'
+    # MDIconButton:
+    #     icon: "keyboard-backspace"
+    #     on_press: app.root.current = 'search_screen'
 
-<ResultsScreen>:
-    name: 'results_screen'
+# <DetailScreen>:
+    # name: 'detail_screen'
 
-    GridLayout:
-        cols: 1
+    # MDLabel:
+    #     id: screen2_label
+    #     halign: 'center'
 
-        MDLabel:
-            text: 'Max Hospitals in Results'
-            halign: 'center'
-
-        MDSlider:
-            id: results_slider
-            min: 0
-            max: 200
-            value: 50
-            on_touch_up: root.on_slider_change(self.value)
-
-    MDIconButton:
-        icon: "keyboard-backspace"
-        on_press: app.root.current = 'search_screen'
-
-<HospitalScreen>:
-    name: 'hospital_screen'
-    on_enter: root.add_hosp_list()
-
-    ScrollView:
-        MDList:
-            id: hosp_contain
-
-    MDIconButton:
-        icon: "keyboard-backspace"
-        on_press: app.root.current = 'search_screen'
-
-<DetailScreen>:
-    name: 'detail_screen'
-
-    MDLabel:
-        id: screen2_label
-        halign: 'center'
-
-    MDIconButton:
-        icon: "keyboard-backspace"
-        on_press: app.root.current = 'hospital_screen'
+    # MDIconButton:
+    #     icon: "keyboard-backspace"
+    #     on_press: app.root.current = 'hospital_screen'

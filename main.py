@@ -47,6 +47,10 @@ class MyScreenManager(ScreenManager):
     def __init__(self, **kwargs):
         super(MyScreenManager, self).__init__(**kwargs)
 
+class ContentNavigationDrawer(BoxLayout):
+    screen_manager = ObjectProperty()
+    nav_drawer = ObjectProperty()
+
 class MenuScreen(Screen):
     pass
 
@@ -179,15 +183,15 @@ class MeasureScreen(Screen):
     #     for meas in measures:
     #         self.ids.meas_contain.add_widget(OneLineListItem(text=meas))
 
-class ResultsScreen(Screen):
-    def update_limit_param(self, value):
-    #     Logger.critical(value)
-        HCData.limit = int(value)
+# class ResultsScreen(Screen):
+#     def update_limit_param(self, value):
+#     #     Logger.critical(value)
+#         HCData.limit = int(value)
 
-    def on_slider_change(self, value):
-        # Clock.schedule_once(lambda dt: self.update_limit_param(value), 1)
-        # Logger.critical(value)
-        self.update_limit_param(value)
+#     def on_slider_change(self, value):
+#         # Clock.schedule_once(lambda dt: self.update_limit_param(value), 1)
+#         # Logger.critical(value)
+#         self.update_limit_param(value)
 
 class HospitalScreen(Screen):
     # hospital_screen = ObjectProperty()
@@ -237,17 +241,22 @@ class DetailScreen(Screen):
 #====================================================================================
 class myHospitalApp(MDApp):
     def build(self):
-        Builder.load_file('screen.kv')
-        sm = MyScreenManager(transition=NoTransition())
-        sm.add_widget(MenuScreen())
-        sm.add_widget(SearchScreen())
-        sm.add_widget(LocationScreen())
-        sm.add_widget(MeasureScreen())
-        sm.add_widget(ResultsScreen())
-        sm.add_widget(HospitalScreen())
-        sm.add_widget(DetailScreen())
-        sm.current = 'menu_screen'
-        return sm
+        return Builder.load_file('screen.kv')
+        # sm = MyScreenManager(transition=NoTransition())
+        # # sm.add_widget(ContentNavigationDrawer())
+        # sm.add_widget(MenuScreen())
+        # sm.add_widget(SearchScreen())
+        # sm.add_widget(LocationScreen())
+        # sm.add_widget(MeasureScreen())
+        # sm.add_widget(ResultsScreen())
+        # sm.add_widget(HospitalScreen())
+        # sm.add_widget(DetailScreen())
+        # sm.current = 'menu_screen'
+        # return sm
+
+    def on_slider_change(self, value):
+        # updates response limit when slider value is changed
+        HCData.limit = int(value)
 
 if __name__ == '__main__':
     HCData = GetHCData()
