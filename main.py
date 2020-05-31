@@ -220,7 +220,7 @@ class HospitalScreen(Screen):
         hc_data = HCData.get_hc_data()
         for hosp in hc_data:
             if hosp['hospital_name'] == list_item.text:
-                detail_text = list_item.text + ' ' + hosp['measure_id'] + ' Score = ' + hosp['score'] + ', ' + hosp['compared_to_national']
+                detail_text = list_item.text + '\n' + hosp['measure_id'] + ' Score = ' + hosp['score'] + ', ' + hosp['compared_to_national']
 
         self.manager.current = 'detail_screen'
         self.manager.get_screen('detail_screen').ids.screen2_label.text = detail_text
