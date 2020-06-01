@@ -17,7 +17,7 @@ def load_row(row):
 
 def data_load():
     data_dir = 'D:/Dropbox/Northwestern/Capstone/model_data/'
-    f_path = data_dir + 'test_model_results_data.csv'
+    f_path = data_dir + 'final_model_results.csv'
     model_data = pd.read_csv(f_path)
 
     model_data.apply(lambda x: load_row(x), axis=1)
@@ -26,7 +26,7 @@ def data_load():
 # to run the above:
 """
 run python manage.py shell
-from data_management import data_load
+from model_results.data_management import data_load
 data_load()
 
 Be sure to update the model data!
@@ -34,4 +34,9 @@ Be sure to update the model data!
 # to delete the database:
 """
 run python manage.py flush 
+"""
+
+# to run the server:
+"""
+run python manage.py runserver
 """

@@ -10,8 +10,9 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.boxlayout import BoxLayout
 from kivymd.uix.textfield import MDTextField
+import numpy as np
 
-from helpers import GetHCData, get_state_codes, get_comp_measures
+from helpers import GetHCData, get_state_codes, get_comp_measures, GetModelData
 
 # start logger (useful for debugging)
 Logger.info('Load Logger')
@@ -204,6 +205,7 @@ class HospitalScreen(Screen):
             self.dialog.open()
 
         else:
+            # get hospital compare data
             HCData.send_hc_request()
             hc_data = HCData.get_hc_data()
 
@@ -215,12 +217,54 @@ class HospitalScreen(Screen):
                                                                 tertiary_text='{}, {} {}'.format(\
                                                                     hosp['city'], hosp['state'], hosp['zip_code']),
                                                                 on_release=self.switch_screen))
+                        
+                # Logger.critical(hosp)
     
     def switch_screen(self, list_item):
         hc_data = HCData.get_hc_data()
+        
+        # get model results data
+        ModelData = GetModelData()
+        ModelData.send_request()
+        md_data = ModelData.req_data
+
         for hosp in hc_data:
             if hosp['hospital_name'] == list_item.text:
-                detail_text = list_item.text + '\n' + hosp['measure_id'] + ' Score = ' + hosp['score'] + ', ' + hosp['compared_to_national']
+                found = False
+                for result in md_data:
+                    if len(result['provider_id']) == 5:
+                        result['provider_id'] = '0' + str(result['provider_id'])
+                    # Logger.critical(hosp['provider_id'] + ' | ' + result['provider_id'] + ' | ' + result['performance_class'])
+                    if result['provider_id'] == str(hosp['provider_id']):
+                        found = True
+                        detail_text = list_item.text + \
+                        '\n' + hosp['measure_id'] + ' Score = ' + hosp['score'] + ', ' + hosp['compared_to_national'] + \
+                        '\n' + 'Prediction = ' + result['performance_class']
+                    elif (hosp['hospital_name'] == list_item.text) & (~found):
+                        detail_text = list_item.text + '\n' + hosp['measure_id'] + ' Score = ' + hosp['score'] + ', ' + hosp['compared_to_national']
+
+
+                    
+
+            # for result in md_data:
+            #     Logger.critical(hosp['provider_id'] + ' | ' + result['provider_id'] + ' | ' + result['performance_class'])
+                # if len(result['provider_id']) == 5:
+                #     result['provider_id'] = '0' + str(result['provider_id'])
+
+            #     # if result['performance_class'] == None:
+            #     #     result['performance_class'] = 'Not Available'
+            #     # if len(result) == 2:
+            #     #     result['performance_class'] = 'Not Available'
+
+            #     found = False
+
+            #     if result['provider_id'] == str(hosp['provider_id']):
+            #         found = True
+            #         detail_text = list_item.text + \
+            #         '\n' + hosp['measure_id'] + ' Score = ' + hosp['score'] + ', ' + hosp['compared_to_national'] + \
+            #         '\n' + 'Prediction = ' + result['performance_class']
+            #     elif (hosp['hospital_name'] == list_item.text) & (~found):
+            #         detail_text = list_item.text + '\n' + hosp['measure_id'] + ' Score = ' + hosp['score'] + ', ' + hosp['compared_to_national']
 
         self.manager.current = 'detail_screen'
         self.manager.get_screen('detail_screen').ids.screen2_label.text = detail_text
