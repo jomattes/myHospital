@@ -1,13 +1,6 @@
-# ScreenManager:
-#     MenuScreen:
-#     SearchScreen:
-#     HospitalScreen:
-#     DetailScreen:
-
 <ItemConfirm>:
     name: 'item_confirm'
     on_release: root.set_icon(check)
-    # on_release: root.update_state_param()
 
     CheckboxRightWidget:
         id: check
@@ -30,10 +23,6 @@
         keep_ratio: True
         size_hint: 0.5, 0.5
         pos_hint: {'center_x': 0.5, 'center_y': 0.7}
-    
-    # AnchorLayout:
-    #     anchor_x: 'center'
-    #     anchor_y: 'center'
         
     MDFillRoundFlatButton:
         icon: 'android'
@@ -92,10 +81,6 @@
                 on_release: root.add_zip_dialog()
                 IconLeftWidget:
                     icon: 'map-marker-question-outline'
-            # OneLineAvatarListItem:
-            #     text: 'Distance'
-            #     IconLeftWidget:
-            #         icon: 'map-marker-question-outline'
 
     MDIconButton:
         icon: "keyboard-backspace"
@@ -114,12 +99,6 @@
                 text: 'Benchmark Value'
                 IconLeftWidget:
                     icon: 'hospital-box-outline'
-
-    # on_enter: root.add_meas_list()
-
-    # ScrollView:
-    #     MDList:
-    #         id: meas_contain
 
     MDIconButton:
         icon: "keyboard-backspace"

@@ -171,28 +171,14 @@ class MeasureScreen(Screen):
         # closes popup, used when CANCEL button is pressed
         self.dialog.dismiss()
 
-    # def add_meas_list(self):
-    #     hc_data = HCData.get_hc_data()
-    #     measure_list = []
-    #     for hosp in hc_data:
-    #         measure_list.append(hosp['measure_name'])
-    #     measures = set(measure_list)
-    #     for meas in measures:
-    #         self.ids.meas_contain.add_widget(OneLineListItem(text=meas))
-
 class ResultsScreen(Screen):
     def update_limit_param(self, value):
-    #     Logger.critical(value)
         HCData.limit = int(value)
 
     def on_slider_change(self, value):
-        # Clock.schedule_once(lambda dt: self.update_limit_param(value), 1)
-        # Logger.critical(value)
         self.update_limit_param(value)
 
-class HospitalScreen(Screen):
-    # hospital_screen = ObjectProperty()
-    
+class HospitalScreen(Screen):    
     def add_hosp_list(self):
         if global_text == None:
             # add popup text to say "PLEASE SELECT A MEASURE"
@@ -217,8 +203,6 @@ class HospitalScreen(Screen):
                                                                 tertiary_text='{}, {} {}'.format(\
                                                                     hosp['city'], hosp['state'], hosp['zip_code']),
                                                                 on_release=self.switch_screen))
-                        
-                # Logger.critical(hosp)
     
     def switch_screen(self, list_item):
         hc_data = HCData.get_hc_data()
@@ -234,7 +218,6 @@ class HospitalScreen(Screen):
                 for result in md_data:
                     if len(result['provider_id']) == 5:
                         result['provider_id'] = '0' + str(result['provider_id'])
-                    # Logger.critical(hosp['provider_id'] + ' | ' + result['provider_id'] + ' | ' + result['performance_class'])
                     if result['provider_id'] == str(hosp['provider_id']):
                         found = True
                         detail_text = list_item.text + \
@@ -243,36 +226,10 @@ class HospitalScreen(Screen):
                     elif (hosp['hospital_name'] == list_item.text) & (~found):
                         detail_text = list_item.text + '\n' + hosp['measure_id'] + ' Score = ' + hosp['score'] + ', ' + hosp['compared_to_national']
 
-
-                    
-
-            # for result in md_data:
-            #     Logger.critical(hosp['provider_id'] + ' | ' + result['provider_id'] + ' | ' + result['performance_class'])
-                # if len(result['provider_id']) == 5:
-                #     result['provider_id'] = '0' + str(result['provider_id'])
-
-            #     # if result['performance_class'] == None:
-            #     #     result['performance_class'] = 'Not Available'
-            #     # if len(result) == 2:
-            #     #     result['performance_class'] = 'Not Available'
-
-            #     found = False
-
-            #     if result['provider_id'] == str(hosp['provider_id']):
-            #         found = True
-            #         detail_text = list_item.text + \
-            #         '\n' + hosp['measure_id'] + ' Score = ' + hosp['score'] + ', ' + hosp['compared_to_national'] + \
-            #         '\n' + 'Prediction = ' + result['performance_class']
-            #     elif (hosp['hospital_name'] == list_item.text) & (~found):
-            #         detail_text = list_item.text + '\n' + hosp['measure_id'] + ' Score = ' + hosp['score'] + ', ' + hosp['compared_to_national']
-
         self.manager.current = 'detail_screen'
         self.manager.get_screen('detail_screen').ids.screen2_label.text = detail_text
-        # self.manager.get_screen('detail_screen').ids.screen2_label.text = list_item.text
 
 class DetailScreen(Screen):
-    # detail_screen = ObjectProperty()
-
     def screen_switch_details(self):
         self.manager.current = 'hospital_screen'
 #====================================================================================
